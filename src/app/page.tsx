@@ -141,7 +141,8 @@ export default async function HomePage() {
               <div className="text-center text-amber-400 text-[10px] font-black uppercase tracking-[0.2em] mb-4">
                 🏐 Bagan Final · Liga Kampung
               </div>
-              <div className="flex items-center justify-center gap-3">
+              <div className="overflow-x-auto -mx-2 px-2">
+              <div className="flex items-center gap-3 w-max mx-auto">
                 {/* Semifinals */}
                 <div className="flex flex-col gap-5">
                   <MiniMatch a="GARUDA" b="ELANG" sa={3} sb={1} win={1} />
@@ -165,6 +166,7 @@ export default async function HomePage() {
                   </div>
                   <div className="text-amber-400 text-[8px] font-bold uppercase tracking-widest mt-1">Juara</div>
                 </div>
+              </div>
               </div>
             </div>
           </div>
@@ -224,7 +226,8 @@ export default async function HomePage() {
 
           {/* Big bracket preview */}
           <div className="rounded-3xl p-6 shadow-2xl" style={{ background: "linear-gradient(160deg,#111827 0%,#1e293b 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.5)" }}>
-            <div className="flex items-center justify-center gap-3">
+            <div className="overflow-x-auto -mx-2 px-2">
+            <div className="flex items-center gap-3 w-max mx-auto">
               <div className="flex flex-col gap-4">
                 <MiniMatch a="BLISUK" b="QUEEN" sa={3} sb={0} win={1} />
                 <MiniMatch a="GUCCI" b="YAKULT" sa={1} sb={3} win={2} />
@@ -247,6 +250,7 @@ export default async function HomePage() {
                   BLISUK
                 </div>
               </div>
+            </div>
             </div>
           </div>
         </div>
