@@ -4,6 +4,10 @@ import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  // Accept either Auth.js v5 (AUTH_SECRET) or legacy (NEXTAUTH_SECRET) naming.
+  secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
+  // Trust the deployment host (Vercel / custom domain) behind a proxy.
+  trustHost: true,
   providers: [
     CredentialsProvider({
       name: "credentials",
