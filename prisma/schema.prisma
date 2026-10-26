@@ -1,0 +1,141 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  passwordHash String
+  role         String   @default("ADMIN")
+  createdAt    DateTime @default(now())
+}
+
+model Tournament {
+  id              String   @id @default(cuid())
+  slug            String   @unique
+  name            String
+  sport           String   // volleyball | football | basketball | badminton | futsal
+  theme           String   @default("default")
+  status          String   @default("DRAFT")
+  // DRAFT | GROUP_STAGE | KNOCKOUT | COMPLETED
+
+  teamsPerGroup   Int      @default(4)
+  qualifyPerGroup Int      @default(2)
+  thirdPlaceMatch Boolean  @default(false)
+
+  startDate       DateTime?
+  endDate         DateTime?
+  venue           String?
+  description     String?
+  organizerName   String?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  teams           Team[]
+  groups          Group[]
+  knockoutMatches KnockoutMatch[]
+}
+
+model Team {
+  id           String     @id @default(cuid())
+  name         String
+  logoUrl      String?
+  seeding      Int?
+  tournamentId String
+  tournament   Tournament @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+
+  groupTeams   GroupTeam[]
+
+  // knockout references
+  ko1Matches   KnockoutMatch[] @relation("Team1")
+  ko2Matches   KnockoutMatch[] @relation("Team2")
+  koWins       KnockoutMatch[] @relation("Winner")
+
+  // group matches
+  homeMatches  GroupMatch[] @relation("HomeTeam")
+  awayMatches  GroupMatch[] @relation("AwayTeam")
+}
+
+model Group {
+  id           String     @id @default(cuid())
+  name         String     // "Grup A", "Grup B", etc.
+  order        Int        @default(0)
+  tournamentId String
+  tournament   Tournament @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+
+  groupTeams   GroupTeam[]
+  matches      GroupMatch[]
+}
+
+model GroupTeam {
+  id      String @id @default(cuid())
+  groupId String
+  teamId  String
+  order   Int    @default(0)
+
+  group   Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  team    Team  @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@unique([groupId, teamId])
+}
+
+model GroupMatch {
+  id          String    @id @default(cuid())
+  groupId     String
+  homeTeamId  String
+  awayTeamId  String
+  homeScore   Int?
+  awayScore   Int?
+  scheduledAt DateTime?
+  venue       String?
+  status      String    @default("SCHEDULED")
+  // SCHEDULED | COMPLETED | CANCELLED
+  matchDay    Int       @default(1)
+  notes       String?
+
+  group       Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  homeTeam    Team  @relation("HomeTeam", fields: [homeTeamId], references: [id])
+  awayTeam    Team  @relation("AwayTeam", fields: [awayTeamId], references: [id])
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model KnockoutMatch {
+  id           String    @id @default(cuid())
+  tournamentId String
+  round        Int       // 1=Final, 2=Semi, 4=Quarter, 8=Round of 16, etc.
+  roundName    String    // "Final", "Semi-Final", "Perempat Final", etc.
+  position     Int       // 0-indexed position in the round
+  team1Id      String?
+  team2Id      String?
+  team1Score   Int?
+  team2Score   Int?
+  winnerId     String?
+  isBye        Boolean   @default(false)
+  scheduledAt  DateTime?
+  venue        String?
+  status       String    @default("PENDING")
+  // PENDING | SCHEDULED | COMPLETED | CANCELLED
+  nextMatchId  String?   // next knockout match
+  nextMatchPos Int?      // 1 or 2 (team1 or team2 slot in next match)
+  notes        String?
+
+  tournament   Tournament    @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  team1        Team?         @relation("Team1", fields: [team1Id], references: [id])
+  team2        Team?         @relation("Team2", fields: [team2Id], references: [id])
+  winner       Team?         @relation("Winner", fields: [winnerId], references: [id])
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}

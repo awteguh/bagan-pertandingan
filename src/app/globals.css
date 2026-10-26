@@ -1,0 +1,213 @@
+@import "tailwindcss";
+
+html { scroll-behavior: smooth; }
+
+/* ─── Landing decorative helpers ─────────────────────────────────────────── */
+.blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.mini-match {
+  background: rgba(255,255,255,0.97);
+  border-radius: 7px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  width: 128px;
+  overflow: hidden;
+}
+.mini-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 8px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.mini-row + .mini-row { border-top: 1px solid #f1f5f9; }
+.mini-row.win { background: linear-gradient(135deg, #fef9c3 0%, #fef08a 100%); color: #78350f; }
+
+/* fade/slide-in on load */
+@keyframes floatY { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.animate-float { animation: floatY 4s ease-in-out infinite; }
+
+/* ─── Sport theme base variables ─────────────────────────────────────────── */
+:root {
+  --color-primary: 220 38 38;
+  --color-primary-fg: 255 255 255;
+  --color-secondary: 254 242 242;
+  --color-accent: 245 158 11;
+  --color-background: 248 250 252;
+  --color-surface: 255 255 255;
+  --color-border: 226 232 240;
+  --color-text: 15 23 42;
+  --color-text-muted: 100 116 139;
+}
+
+/* ─── 17 Agustus ─────────────────────────────────────────────────────────── */
+.theme-agustus {
+  --color-primary: 220 38 38;
+  --color-primary-fg: 255 255 255;
+  --color-accent: 234 179 8;
+  --color-background: 255 251 235;
+  --color-border: 252 165 165;
+}
+
+/* ─── Lebaran ────────────────────────────────────────────────────────────── */
+.theme-lebaran {
+  --color-primary: 21 128 61;
+  --color-primary-fg: 255 255 255;
+  --color-accent: 202 138 4;
+  --color-background: 254 252 232;
+  --color-border: 134 239 172;
+}
+
+/* ─── Sporty ─────────────────────────────────────────────────────────────── */
+.theme-olahraga {
+  --color-primary: 22 163 74;
+  --color-primary-fg: 255 255 255;
+  --color-accent: 234 179 8;
+  --color-background: 240 253 244;
+  --color-border: 187 247 208;
+}
+
+/* ─── Bracket page — dark stadium background ─────────────────────────────── */
+.bracket-page {
+  background: linear-gradient(160deg, #0f1724 0%, #1a2744 40%, #0d1520 100%);
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.bracket-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(220,38,38,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 0% 100%, rgba(30,58,138,0.3) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bracket-page > * { position: relative; z-index: 1; }
+
+/* ─── Tournament hero banner ─────────────────────────────────────────────── */
+.tournament-hero {
+  background: linear-gradient(135deg, #7f1d1d 0%, #dc2626 35%, #b91c1c 65%, #1e1b4b 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.tournament-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.tournament-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, rgba(15,23,36,0.8));
+}
+
+/* ─── Gradient text ──────────────────────────────────────────────────────── */
+.text-gradient-gold {
+  background: linear-gradient(135deg, #fde68a 0%, #f59e0b 40%, #d97706 70%, #fbbf24 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-white {
+  background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Bracket connector lines ────────────────────────────────────────────── */
+.bracket-h-line {
+  height: 2px;
+  background: linear-gradient(to right, rgba(255,255,255,0.5), rgba(255,255,255,0.2));
+}
+
+.bracket-v-line {
+  width: 2px;
+  background: rgba(255,255,255,0.3);
+}
+
+/* ─── Match box sport style ──────────────────────────────────────────────── */
+.match-box {
+  background: rgba(255,255,255,0.97);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.1);
+  overflow: hidden;
+  width: 180px;
+}
+
+.match-box-team {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 10px;
+  border-bottom: 1px solid #f1f5f9;
+  min-height: 36px;
+}
+
+.match-box-team:last-child {
+  border-bottom: none;
+}
+
+.match-box-team.winner {
+  background: linear-gradient(135deg, #fef9c3 0%, #fef08a 100%);
+}
+
+/* ─── Champion box ───────────────────────────────────────────────────────── */
+.champion-box {
+  background: linear-gradient(135deg, #78350f 0%, #b45309 30%, #d97706 60%, #fbbf24 100%);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(245,158,11,0.5), 0 0 0 2px rgba(251,191,36,0.3);
+  padding: 12px 16px;
+  min-width: 140px;
+  text-align: center;
+}
+
+/* ─── Public page cards ──────────────────────────────────────────────────── */
+.sport-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  transition: transform 150ms, box-shadow 150ms;
+}
+
+.sport-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+/* ─── Print styles ───────────────────────────────────────────────────────── */
+@media print {
+  .no-print { display: none !important; }
+  .print-only { display: block !important; }
+  body { background: white !important; }
+  .bracket-page { background: white !important; }
+  .bracket-page::before { display: none; }
+}
+
+.print-only { display: none; }
+
+/* ─── Scrollbar ──────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 3px; }
