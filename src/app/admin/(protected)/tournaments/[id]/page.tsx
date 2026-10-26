@@ -79,7 +79,7 @@ export default async function AdminTournamentDetailPage({
         </div>
 
         {/* Tabs */}
-        <nav className="flex gap-1 border-b border-slate-200">
+        <nav className="flex gap-1 border-b border-slate-200 overflow-x-auto">
           {tabs.map((tab) => (
             <Link
               key={tab.href}
