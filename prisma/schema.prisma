@@ -2,13 +2,15 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  // Pooled connection (Supabase PgBouncer, port 6543) for the app runtime.
+  url       = env("DATABASE_URL")
+  // Direct connection (port 5432) used by `prisma migrate` / `db push`.
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
